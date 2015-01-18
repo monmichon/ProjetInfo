@@ -15,20 +15,16 @@ int main(){
 	Obstacle obs[N]; //liste de tout les obstacles
 	int n = 0; //n est le nombre d'obstacles créés
 	openWindow(width,height, "FlaPonts Bird");
-	obs[n].setx(width);
-	obs[n].sety(double(rand()) / RAND_MAX*(height - 200));
-	obs[n].seth(100 + 50 * double(rand()) / RAND_MAX);
 	bool b=false;
 	Timer t;
-
 	while (!b){
 		t.reset();
-		if ((rand() % 10 == 0) && (obs[n].getx()<(width-200)|| n==0)) //on crée un obstacle si le dernier est suffisament avancé. Le rand() sert à ne pas avoir une distnce constante entre deux obstacles
+		if (n == 0||obs[n-1].getx()<width/2) //on crée un obstacle si le dernier est suffisament avancé. Le rand() sert à ne pas avoir une distnce constante entre deux obstacles
 		{
 			n++;
-			obs[n].setx(width);
-			obs[n].sety(double(rand()) / RAND_MAX*(height-200)); 
-			obs[n].seth(100 + 50 * double(rand()) / RAND_MAX);
+			obs[n-1].setx(width+50*double(rand())/RAND_MAX);
+			obs[n-1].sety(double(rand()) / RAND_MAX*(height-200)); 
+			obs[n-1].seth(100 + 50*double(rand()) / RAND_MAX);
 		}
 		noRefreshBegin();
 		for (int i = 0; i < n; i++)
@@ -47,7 +43,6 @@ int main(){
 		p.effacer();
 		if (Clavier())
 			p.saut(200);
-		cout << t.lap() << endl;
 		p.bouger();
 		p.afficher();
 		noRefreshEnd();

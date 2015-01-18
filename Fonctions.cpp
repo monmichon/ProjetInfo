@@ -7,15 +7,9 @@ using namespace Imagine;
 #include <Imagine/Common.h>
 
 bool Clavier() {
-	Timer t;
 	Event e;
-		getEvent(1, e);
-		cout << t.lap() << endl;
-		if (e.type == EVT_KEY_ON)
-		{
-			return true;
-		}
-	return false;
+	getEvent(0.5, e);
+	return(e.type == EVT_KEY_ON);
 }
 
 bool Clavier2() {
