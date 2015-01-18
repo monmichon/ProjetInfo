@@ -1,8 +1,9 @@
 #pragma once
 
-const double g = 9.8;//pesanteur
-const double dt = 0.1; //pas temporel
-const double vo = -5; //vitesse obstacle;
+
+const double dt = 0.05; //pas temporel
+const double g = 98*dt;//pesanteur
+const double vo = -500*dt; //vitesse obstacle;
 const double lim = 140;//vitesse limite de l'oiseau
 const int width = 800, height = 800;
 const int N = 10;
