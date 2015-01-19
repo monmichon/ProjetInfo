@@ -4,7 +4,7 @@ using namespace Imagine;
 
 Obstacle::Obstacle(){ //génère un obstacle hors de l'écran
 	x = 2*width;
-	l = 90;
+	l = 100;
 	h = 50;
 	y = 350;
 }

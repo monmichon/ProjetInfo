@@ -7,7 +7,7 @@ using namespace std;
 
 #include "Fonctions.h"
 
-const double x0 = width / 3, vx = 700*dt, m = 20,r=8, jump=3000*dt;
+const double x0 = width / 3, vx = 1400*dt, m = 40,r=13, jump=180*m*dt; 
 
 int main(){ 
 	srand(time(NULL));
@@ -17,8 +17,8 @@ int main(){
 	openWindow(width,height, "FlaPonts Bird");
 	bool b=false;
 	Timer t;
-	double u = 0;
-	while (!b){
+	double u = 0,v=0;
+	while (!b && p.gety()>r && p.gety()<height-r){
 		t.reset();
 		if (n == 0||obs[n-1].getx()<width/3) //on crée un obstacle si le dernier est suffisament avancé (dans le tiers gauche). Le rand() sert à ne pas avoir une distnce constante entre deux obstacles
 		{
@@ -26,12 +26,17 @@ int main(){
 			obs[n-1].setx(width+50*double(rand())/RAND_MAX);
 			obs[n-1].sety(double(rand()) / RAND_MAX*(height-200)); 
 			u = double(rand()) / RAND_MAX;
-			obs[n - 1].seth(130 + 10 * sqrt(-2*log(u))*cos(2* M_PI*u)); //loi gaussienne pour l'epaisseur (pour éviter qu'il y ait trop de trucs large, mais un peu quand même
+			v = double(rand()) / RAND_MAX;
+			obs[n - 1].seth(135 + 20 * sqrt(-2*log(u))*cos(2* M_PI*v)); //loi gaussienne pour l'epaisseur (pour éviter qu'il y ait trop de trucs large, mais un peu quand même
 		}
 		noRefreshBegin();
 		p.effacer();
-		if (Clavier())
-			p.saut(jump);
+		if (Clavier()){
+			if (p.getvy() > 0)
+				p.saut(jump);
+			else
+				p.saut(jump - p.getvy());
+		}
 		p.bouger();
 		p.afficher();
 		for (int i = 0; i < n; i++)
@@ -49,7 +54,8 @@ int main(){
 		noRefreshEnd();
 		for (int i = 0; i < 3; i++) //Jamais plus de trois obstacles passés par p et toujours dans l'écran, pas besoin de tout tester
 			b = b||obs[i].test(p);
-		milliSleep(250*dt- 1000*t.lap());
+		if (250 * dt - 1000 * t.lap()>0)
+			milliSleep(250 * dt - 1000 * t.lap());
 	}
 	cout << "PERDU" << endl;
 	endGraphics();
