@@ -9,8 +9,8 @@ Obstacle::Obstacle(){ //génère un obstacle hors de l'écran
 	y = 350;
 }
 void Obstacle::afficher(){
-	fillRect(IntPoint2(x,0),l,y,BLACK);
-	fillRect(IntPoint2(x, y+h), l, height-h-y, BLACK);
+	fillRect(IntPoint2(x,0),l,y,Color(0,230,100));
+	fillRect(IntPoint2(x, y + h), l, height - h - y, Color(0, 230, 100));
 }
 void Obstacle:: effacer(){
 	fillRect(IntPoint2(x, 0), l, y, WHITE);

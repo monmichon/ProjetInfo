@@ -16,6 +16,7 @@ class Piaf{
 	Color c; //couleur pour jeu à plusieurs (pourquoi pas?)
 	void setpos(double X, double Y);
 	void setv(double vX, double vY);
+
 public:
 	Piaf(double x,double y,double vx, double m,double r,Color c);
 	double getr();

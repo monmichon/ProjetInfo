@@ -7,30 +7,38 @@ using namespace std;
 
 #include "Fonctions.h"
 
-const double x0 = width / 3, vx = 1400*dt, m = 40,r=13, jump=180*m*dt; 
-
-int main(){ 
+const double x0 = width / 3, m = 40, r = 13, jump = 150*m*dt, pas_vitesse =dt;
+double vx = 1100 * dt;
+int main(){
 	srand(time(NULL));
 	Piaf p(x0, height/2, 0, m,r,RED);  //crée un piaf (cercle de rayon r, de masse m, placé en (x0,height/2) etde couleur rouge)
 	Obstacle obs[N]; //liste de tout les obstacles
 	int n = 0; //n est le nombre d'obstacles créés
+	int compteur = 0;
 	openWindow(width,height, "FlaPonts Bird");
 	bool b=false;
 	Timer t;
-	double u = 0,v=0;
+	double u = 0, v = 0, h = 0;
 	while (!b && p.gety()>r && p.gety()<height-r){
+		//vx += pas_vitesse;
 		t.reset();
-		if (n == 0||obs[n-1].getx()<width/3) //on crée un obstacle si le dernier est suffisament avancé (dans le tiers gauche). Le rand() sert à ne pas avoir une distnce constante entre deux obstacles
+		if (n == 0||obs[n-1].getx()<width-600) //on crée un obstacle si le dernier est suffisament avancé (dans le tiers gauche). Le rand() sert à ne pas avoir une distnce constante entre deux obstacles
 		{
 			n++;
 			obs[n-1].setx(width+50*double(rand())/RAND_MAX);
 			obs[n-1].sety(double(rand()) / RAND_MAX*(height-200)); 
 			u = double(rand()) / RAND_MAX;
 			v = double(rand()) / RAND_MAX;
-			obs[n - 1].seth(135 + 20 * sqrt(-2*log(u))*cos(2* M_PI*v)); //loi gaussienne pour l'epaisseur (pour éviter qu'il y ait trop de trucs large, mais un peu quand même
+			h = 130 + 20 * sqrt(-2 * log(u))*cos(2 * M_PI*v);
+			if (h < 90)
+				obs[n - 1].seth(93); //loi gaussienne pour l'epaisseur (pour éviter qu'il y ait trop de trucs large, mais un peu quand même
+			else
+				obs[n - 1].seth(h);
 		}
 		noRefreshBegin();
-		p.effacer();
+	
+		drawString(IntPoint2(width / 2 - 10, height / 4), to_string(compteur),WHITE,30,0,false,true);
+		p.effacer();   
 		if (Clavier()){
 			if (p.getvy() > 0)
 				p.saut(jump);
@@ -49,13 +57,18 @@ int main(){
 				for (int i = 0; i < n; i++)
 					obs[i] = obs[i + 1];
 				n--;
+				compteur++;
 			}
 		}
+		drawString(width / 2 - 10, height / 4, to_string(compteur), RED, 30);
 		noRefreshEnd();
+
+
 		for (int i = 0; i < 3; i++) //Jamais plus de trois obstacles passés par p et toujours dans l'écran, pas besoin de tout tester
 			b = b||obs[i].test(p);
-		if (250 * dt - 1000 * t.lap()>0)
-			milliSleep(250 * dt - 1000 * t.lap());
+		if (250 * dt - 1000 * t.lap()>0)  //pour éviter que ça freeze si la boucle met trop de temps à s'executer
+			milliSleep(250 * dt - 1000 * t.lap()); //on essaie d'être le plus régulier possible
+
 	}
 	cout << "PERDU" << endl;
 	endGraphics();
