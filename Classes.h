@@ -5,7 +5,7 @@ const double dt = 0.05; //pas temporel
 const double g = 98*dt;//pesanteur
 const double vo = -500*dt; //vitesse obstacle;
 const double lim = 140;//vitesse limite de l'oiseau
-const int width = 800, height = 800;
+const int width = 600, height = 800;
 const int N = 10;
 
 class Piaf{

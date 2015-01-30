@@ -7,8 +7,8 @@ using namespace std;
 
 #include "Fonctions.h"
 
-const double x0 = width / 3, m = 40, r = 13, jump = 150*m*dt, pas_vitesse =dt;
-double vx = 1100 * dt;
+const double x0 = width / 3, m = 35, r = 13, jump = 190*m*dt, pas_vitesse =dt;
+double vx = 1400 * dt;
 int main(){
 	srand(time(NULL));
 	Piaf p(x0, height/2, 0, m,r,RED);  //crée un piaf (cercle de rayon r, de masse m, placé en (x0,height/2) etde couleur rouge)
@@ -66,8 +66,8 @@ int main(){
 
 		for (int i = 0; i < 3; i++) //Jamais plus de trois obstacles passés par p et toujours dans l'écran, pas besoin de tout tester
 			b = b||obs[i].test(p);
-		if (250 * dt - 1000 * t.lap()>0)  //pour éviter que ça freeze si la boucle met trop de temps à s'executer
-			milliSleep(250 * dt - 1000 * t.lap()); //on essaie d'être le plus régulier possible
+		if (200 * dt - 1000 * t.lap()>0)  //pour éviter que ça freeze si la boucle met trop de temps à s'executer
+			milliSleep(200 * dt - 1000 * t.lap()); //on essaie d'être le plus régulier possible
 
 	}
 	cout << "PERDU" << endl;
